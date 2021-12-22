@@ -1,0 +1,15 @@
+{% extends 'authapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if already_activate %}
+        <h1>Данный ключ активации уже был использован.</h1>
+        <p>Попробуйте выполнить вход.</p>
+    {% elif user.is_authenticated %}
+        <h1>Активация прошла успешно</h1>
+    {% else %}
+        <h1>Ошибка активации</h1>
+        <p>Обратитесь к администратору.</p>
+    {% endif %}
+    <a class="form-control btn btn-info" href="{% url 'mainapp:index' %}">На главную</a>
+{% endblock %}
