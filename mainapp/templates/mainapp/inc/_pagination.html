@@ -1,0 +1,9 @@
+<div class="paginator" style="text-align: center;">
+    {% if products_list.has_previous %}
+        <a href="{% url 'mainapp:category_paginate' this_category.slug products_list.previous_page_number %}"><</a>
+    {% endif %}
+    <span>Страница {{ products_list.number }} из {{ products_list.paginator.num_pages }}</span>
+    {% if products_list.has_next %}
+        <a href="{% url 'mainapp:category_paginate' this_category.slug products_list.next_page_number %}">></a>
+    {% endif %}
+</div>

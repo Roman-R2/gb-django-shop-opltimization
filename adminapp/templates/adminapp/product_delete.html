@@ -1,0 +1,20 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+
+    <h4>Уверены, что хотите удалить продукт: </h4>
+    <p>Имя:{{ object.name }}</p>
+    <p>Слаг: {{ object.slug }}</p>
+    <p>Короткое писание: {{ object.short_desc }}</p>
+    <p>Описание: {{ object.description }}</p>
+    <p>Цена: {{ object.price }}</p>
+    <p>Количество: {{ object.quantity }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Удалить." class="btn btn-primary">
+        <a href="{% url 'adminapp:users' %}" class="btn btn-default">Нет, оставить.</a>
+
+    </form>
+
+{% endblock %}

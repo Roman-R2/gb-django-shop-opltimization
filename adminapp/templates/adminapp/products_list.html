@@ -1,0 +1,57 @@
+{% extends 'adminapp/base.html' %}
+{% load my_tags %}
+
+{% block content %}
+    <a href="{% url 'adminapp:product_create' category_id %}" class="btn btn-info" style="margin: 10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Создать новый продукт
+    </a>
+    <a href="{% url 'adminapp:categories' %}" class="btn btn-info" style="margin: 10px;">
+        <i class="fa fa-backward" aria-hidden="true"></i>
+        Вернуться на станицу категорий
+    </a>
+    <hr>
+    <h2 class="align-content-center">Товары категории {{ category_name }}</h2>
+    {% for item in object_list %}
+        <diw class="row" {% if not item.is_active %}style="opacity: 0.5; background-color: gainsboro"{% endif %}>
+            <div class="col-lg-3">
+                <img class="media-object" src="{{ item.image|or_default_product }}" height="120">
+            </div>
+            <div class="col-lg-3">
+                <p>
+                <h4>{{ item.name }}</h4>
+                {% if not item.is_active %}
+                    <span class="label label-warning">Продукт не активен</span>
+                {% endif %}
+                </p>
+                <p>{{ item.short_desc }}</p>
+                <p>
+                    <a href="{% url 'adminapp:product_read' item.pk %}" style="margin-bottom: 10px;" class="btn
+                        btn-info">
+                        <i class="fa fa-eye" aria-hidden="true"></i> Посмотреть продукт
+                    </a>
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <div class="bs-example pull-left" data-example-id="vertical-button-group">
+                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                        <a href="{% url 'adminapp:product_update' item.pk %}" style="margin-bottom: 10px;" class="btn
+                        btn-info">
+                            Редактировать
+                        </a>
+                        <a href="{% url 'adminapp:product_delete' item.pk %}" style="margin-bottom: 10px;"
+                           class="btn btn-danger">Удалить</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <p>Цена: {{ item.price }} руб.</p>
+                <p>Колличество: {{ item.quantity }} шт.</p>
+            </div>
+        </diw>
+        <hr>
+    {% empty %}
+        <h3>В данной категории нет ни одного продукта.</h3>
+    {% endfor %}
+{% endblock %}

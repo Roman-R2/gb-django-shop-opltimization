@@ -1,0 +1,29 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+    <a href="{% url 'adminapp:categories' %}" class="btn btn-info" style="margin: 10px;">
+        <i class="fa fa-backward" aria-hidden="true"></i>
+        Вернуться на станицу категорий
+    </a>
+    <hr>
+
+    <div class="jumbotron">
+        <h2>Информация по продукту {{ object.name }}</h2>
+        <p><img src="/media/{{ object.image }}" alt=""></p>
+        <p>Имя:{{ object.name }}</p>
+        <p>Слаг: {{ object.slug }}</p>
+        <p>Короткое писание: {{ object.short_desc }}</p>
+        <p>Описание: {{ object.description }}</p>
+        <p>Цена: {{ object.price }}</p>
+        <p>Количество: {{ object.quantity }}</p>
+        <p>
+            <a href="{% url 'adminapp:product_update' object.pk %}" style="margin-bottom: 10px;" class="btn
+                        btn-info">
+                Редактировать
+            </a>
+            <a href="{% url 'adminapp:product_delete' object.pk %}" style="margin-bottom: 10px;"
+               class="btn btn-danger">Удалить</a>
+
+        </p>
+    </div>
+{% endblock %}

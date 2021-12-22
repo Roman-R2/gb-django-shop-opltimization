@@ -1,0 +1,14 @@
+.my_badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    --bs-bg-opacity: 1;
+    --bs-primary-rgb: 13, 110, 253;
+    background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+}

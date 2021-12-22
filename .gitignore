@@ -1,0 +1,25 @@
+### IDE ###
+.idea
+
+### ENV ###
+.env
+
+### VENV ###
+venv
+venv_ubuntu
+
+### Python ###
+__pycache__/
+
+### BD ###
+*.sqlite3
+
+### Django ###
+*.pyc
+/media
+
+### DB ###
+db.sqlite3
+
+### Other ###
+help.txt

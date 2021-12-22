@@ -1,0 +1,65 @@
+{% extends "mainapp/base.html" %}
+{% load static %}
+
+{% block header %}{{ block.super }} :: Товары {% endblock header %}
+
+{% block content %}
+    <div class="hero-white">
+        {% include 'mainapp/inc/_navbar.html' %}
+    </div>
+    <div class="details">
+        {% include 'mainapp/inc/_products_navbar.html' %}
+        <div class="title clearfix">
+            <h2 style="margin-top: 0;">Категория: {{ this_category.name }}</h2>
+        </div>
+        {% include 'mainapp/inc/_hot_product.html' %}
+
+        <div class="related-products clearfix" style="margin: 12px;">
+            <h2>Товары категории: </h2>
+            {% if products_list %}
+                {% for item in products_list %}
+                    <div class="block">
+                        <a href="{% url 'mainapp:product' item.slug %}"><img src="/media/{{ item.image }}" alt="">
+                            <div class="text">
+                                <img src="{% static 'mainapp/img/icon-hover.png' %}"
+                                     alt="img">
+                                <h4>{{ item.name }}</h4>
+                                <p>{{ item.short_desc }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>Товаров в {{ this_category.name }} сейчас нет.</h2>
+            {% endif %}
+
+
+        </div>
+            {% include 'mainapp/inc/_pagination.html' %}
+
+    </div>
+
+    <div class="related">
+        <div class="">
+            <h1>Похожие продукты</h1>
+
+        </div>
+        <div class="related-products clearfix">
+            {% for product in same_products %}
+                <div class="block">
+                    <a href="{% url 'mainapp:product' product.slug %}">
+                        <img src="{% static 'mainapp/img/product-1.jpg' %}"
+                             alt="">
+                        <div class="text">
+                            <img src="{% static 'mainapp/img/icon-hover.png' %}"
+                                 alt="img">
+                            <h4>{{ product.name }}</h4>
+                            <p>{{ product.short_desc }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+{% endblock content %}

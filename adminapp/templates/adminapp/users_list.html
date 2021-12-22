@@ -1,0 +1,49 @@
+{% extends 'adminapp/base.html' %}
+{% load my_tags %}
+
+
+{% block content %}
+    <a href="{% url 'adminapp:user_create' %}" class="btn btn-info" style="margin: 10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Создать пользователя
+    </a>
+    <hr>
+    {% for item in object_list %}
+        <div class="row" {% if not item.is_active %}style="background-color: gainsboro"{% endif %}>
+            <div class="col-lg-2">
+                {#                <img class="media-object" src="/media/{{ item.avatar }}" height="64">#}
+                <img class="media-object" src="{{ item.avatar|or_default_avatar }}" height="64">
+            </div>
+            <div class="col-lg-2">
+                {% if not item.is_active %}
+                    <span class="label label-warning">Удален (не активен)</span>
+                {% endif %}
+                {% if item.is_superuser %}
+                    <span class="label label-default">Администратор</span>
+                {% else %}
+                    <span class="label label-info">Пользователь</span>
+                {% endif %}
+            </div>
+            <div class="col-lg-3">
+                <p>Имя пользователя: <b>{{ item.username }}</b></p>
+                <p>Полное имя: {{ item.get_full_name }}</p>
+                <p>Возраст: {{ item.age }}</p>
+                <p>Email: {{ item.email }}</p>
+            </div>
+            <div class="col-lg-5">
+                {% if item.is_active %}
+                    <div class="bs-example pull-left" data-example-id="vertical-button-group">
+                        <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                            <a href="{% url 'adminapp:user_update' item.pk %}" style="margin-bottom: 10px;" class="btn
+                        btn-info">Редактировать</a>
+                            <a href="{% url 'adminapp:user_delete' item.pk %}" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="#" class="btn btn-info" style="margin-top: 30px;">Восстановить</a>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+{% endblock %}

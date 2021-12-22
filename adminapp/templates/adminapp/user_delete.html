@@ -1,0 +1,14 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+
+    <h4>Уверены, что хотите удалить пользователя {{ object.username }}</h4>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Удалить." class="btn btn-primary">
+        <a href="{% url 'adminapp:users' %}" class="btn btn-default">Нет, оставить.</a>
+
+    </form>
+
+{% endblock %}

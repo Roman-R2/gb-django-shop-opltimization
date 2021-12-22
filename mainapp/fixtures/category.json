@@ -1,0 +1,38 @@
+[
+  {
+    "model": "mainapp.category",
+    "pk": 1,
+    "fields": {
+      "name": "Cтулья",
+      "slug": "chairs",
+      "description": "Самые крутые стулья этой планеты"
+    }
+  },
+  {
+    "model": "mainapp.category",
+    "pk": 2,
+    "fields": {
+      "name": "Диваны",
+      "slug": "sofas",
+      "description": "Отменные диваны для настоящих мачо"
+    }
+  },
+  {
+    "model": "mainapp.category",
+    "pk": 3,
+    "fields": {
+      "name": "Шкафы",
+      "slug": "cupboards",
+      "description": "Шкафы, в которые поместится все, что туда залезет"
+    }
+  },
+  {
+    "model": "mainapp.category",
+    "pk": 4,
+    "fields": {
+      "name": "Канделябры",
+      "slug": "candelabra",
+      "description": "Old school декоративная подставка с разветвлениями"
+    }
+  }
+]

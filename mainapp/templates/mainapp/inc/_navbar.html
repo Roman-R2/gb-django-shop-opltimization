@@ -1,0 +1,41 @@
+<div class="header clearfix">
+    <a href="{% url 'mainapp:index' %}" class="logo"></a>
+    <ul class="menu" id="navbar">
+        <li><a href="{% url 'mainapp:index' %}" class="active">домой</a></li>
+        <li><a href="{% url 'mainapp:products' %}">продукты</a></li>
+        <li><a href="{% url 'mainapp:contact' %}">контакты</a></li>
+        <li>|</li>
+        <li>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'adminapp:users' %}">адм. панель</a></li>
+                {% endif %}
+                <li><a href="{% url 'authapp:edit' %}">
+                    {% if user.first_name %}
+                        {{ user.first_name }}
+                    {% else %}
+                        пользователь
+                    {% endif %}</a></li>
+                <li><a href="{% url 'authapp:logout' %}">выйти</a></li>
+            {% else %}
+                <li><a href="{% url 'authapp:register' %}">регистрация</a></li>
+                <li><a href="{% url 'authapp:login' %}">войти</a></li>
+            {% endif %}
+        </li>
+        <li>|</li>
+
+    </ul>
+    <a href="{% url 'basketapp:basket' %}" class="basket">
+        {% comment %}
+        <span class="my_badge">{% if basket %} {{ basket }}{% else %}0{% endif %}</span>
+    {% endcomment %}
+        <span class="my_badge" style="margin-left: 25px;">
+        {% if basket %}
+
+            {{ basket.0.total_cost|floatformat:0 }} руб.<br>
+            ({{ basket.0.total_quantity }} шт.)
+        {% endif %}
+        </span>
+    </a>
+    <a href="#" class="search"></a>
+</div>

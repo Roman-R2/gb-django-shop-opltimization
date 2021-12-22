@@ -1,0 +1,17 @@
+{% extends 'basketapp/base.html' %}
+
+{% block content %}
+    <div class="basket_list">
+        {% include 'basketapp/inc/_inc_basket_list.html' %}
+    </div>
+
+    {% if basket_list %}
+        В корзине {{ basket_list.0.total_quantity }}
+        товаров на общую сумму {{ basket_list.0.total_cost|floatformat:0 }}
+        руб.
+        <br>
+    {% endif %}
+    <hr>
+    <a class="btn btn-info" href="{% url 'mainapp:index' %}">На главную
+        .</a>
+{% endblock %}

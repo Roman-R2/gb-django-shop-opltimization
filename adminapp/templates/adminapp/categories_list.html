@@ -1,0 +1,45 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+    <a href="{% url 'adminapp:category_create' %}" class="btn btn-info" style="margin: 10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        Создать категорию
+    </a>
+    <hr>
+    {% for item in object_list %}
+        <diw class="row" {% if not item.is_active %}style="opacity: 0.5; background-color: gainsboro"{% endif %}>
+            <div class="col-lg-4">
+                <p>
+                <h3>{{ item.name }}</h3>
+                {% if not item.is_active %}
+                    <span class="label label-warning">Категория не активна</span>
+                {% endif %}
+                </p>
+
+                <p>{{ item.description }}</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="bs-example pull-left" data-example-id="vertical-button-group">
+                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                        <a href="{% url 'adminapp:products' item.pk %}" style="margin-bottom: 10px;" class="btn
+                        btn-info">
+                            Продукты категории
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bs-example pull-left" data-example-id="vertical-button-group">
+                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                        <a href="{% url 'adminapp:category_update' item.pk %}" style="margin-bottom: 10px;" class="btn
+                        btn-info">
+                            Редактировать
+                        </a>
+                        <a href="{% url 'adminapp:category_delete' item.pk %}" class="btn btn-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </diw>
+        <hr>
+    {% endfor %}
+{% endblock %}
