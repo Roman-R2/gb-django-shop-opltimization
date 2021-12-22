@@ -5,7 +5,7 @@
 .env
 
 ### VENV ###
-venv
+venv_microsoft
 venv_ubuntu
 
 ### Python ###
