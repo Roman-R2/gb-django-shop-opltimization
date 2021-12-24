@@ -1,5 +1,4 @@
 import hashlib
-from datetime import timedelta
 from random import random
 
 from django.conf import settings
@@ -29,17 +28,14 @@ def get_user_activation_key(user_email):
                         .encode('utf8')).hexdigest()
 
 
-def is_activation_key_expired(
-        expired_date,
-        hours=settings.HOURS_BEFORE_ACTIVATION_KEY_EXPIRED
-):
+def is_activation_key_expired(expired_date):
     """
     Проверит, истекло ли время ключа активации пользователя при
     регистрации
     """
     if not expired_date:
         return True
-    return timezone.now() > expired_date + timedelta(hours=hours)
+    return timezone.now() > expired_date
 
 
 def send_verify_mail(user: ShopUser):

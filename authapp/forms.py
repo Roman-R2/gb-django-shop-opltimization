@@ -43,7 +43,7 @@ class ShopUserRegisterForm(UserCreationForm):
         user = super().save(*args, **kwargs)
         user.is_active = False
         user.activation_key = get_user_activation_key(user.email)
-        user.activation_key_expired = timezone.now() + timedelta(
+        user.activation_key_expired = timezone.localtime() + timedelta(
             hours=settings.HOURS_BEFORE_ACTIVATION_KEY_EXPIRED
         )
         user.save()

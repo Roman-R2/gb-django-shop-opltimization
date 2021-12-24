@@ -16,7 +16,6 @@ __pycache__/
 
 ### Django ###
 *.pyc
-/media
 
 ### DB ###
 db.sqlite3

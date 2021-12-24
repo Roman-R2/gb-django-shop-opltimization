@@ -73,7 +73,7 @@ def register(request):
 
 def verify(request, email, activation_key):
     user = ShopUser.objects.filter(email=email).first()
-
+    print("user.activation_key_expired ---> ", user.activation_key_expired)
     if user.activation_key is None:
         return render(request, 'authapp/verify.html', context={
             'already_activate': True})
