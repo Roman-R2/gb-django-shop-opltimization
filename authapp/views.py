@@ -1,11 +1,13 @@
 from django.contrib import auth
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, \
     ShopUserEditForm
-from authapp.services import check_next_in_request
+from authapp.models import ShopUser
+from authapp.services import check_next_in_request, send_verify_mail, \
+    is_activation_key_expired
 
 
 def login(request):
@@ -22,7 +24,7 @@ def login(request):
 
             if check_next_in_request(request):
                 return HttpResponseRedirect(request.POST['next'])
-            return HttpResponseRedirect(reverse('mainapp:index'))
+            return redirect('mainapp:index')
 
     context = {
         'login_form': login_form,
@@ -43,7 +45,7 @@ def edit(request):
                                      instance=request.user)
         if edit_form.is_valid():
             edit_form.save()
-            return HttpResponseRedirect(reverse('mainapp:index'))
+            return redirect('mainapp:index')
     else:
         edit_form = ShopUserEditForm(instance=request.user)
     context = {
@@ -57,8 +59,9 @@ def register(request):
     if request.method == 'POST':
         register_form = ShopUserRegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
-            register_form.save()
-            return HttpResponseRedirect(reverse('mainapp:index'))
+            user = register_form.save()
+            send_verify_mail(user)
+            return redirect('mainapp:index')
     else:
         register_form = ShopUserRegisterForm()
     context = {
@@ -66,3 +69,21 @@ def register(request):
     }
 
     return render(request, 'authapp/register.html', context=context)
+
+
+def verify(request, email, activation_key):
+    user = ShopUser.objects.filter(email=email).first()
+    print("user.activation_key_expired ---> ", user.activation_key_expired)
+    if user.activation_key is None:
+        return render(request, 'authapp/verify.html', context={
+            'already_activate': True})
+
+    if user:
+        if user.activation_key == activation_key and \
+                not is_activation_key_expired(user.activation_key_expired):
+            user.is_active = True
+            user.activation_key = None
+            user.activation_key_expired = None
+            user.save()
+            auth.login(request, user)
+    return render(request, 'authapp/verify.html')

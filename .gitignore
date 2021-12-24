@@ -16,10 +16,10 @@ __pycache__/
 
 ### Django ###
 *.pyc
-/media
 
 ### DB ###
 db.sqlite3
 
 ### Other ###
 help.txt
+tmp/
