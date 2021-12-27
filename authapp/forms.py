@@ -3,10 +3,10 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, \
     UserChangeForm
-from django.forms import forms, HiddenInput
+from django.forms import forms, HiddenInput, ModelForm
 from django.utils import timezone
 
-from authapp.models import ShopUser
+from authapp.models import ShopUser, ShopUserProfile
 from authapp.services import get_user_activation_key
 
 
@@ -93,3 +93,14 @@ class ShopUserEditForm(UserChangeForm):
         if data_age < 18:
             raise forms.ValidationError('Вам мало лет')
         return data_age
+
+
+class EditProfileForm(ModelForm):
+    class Meta:
+        model = ShopUserProfile
+        fields = ('tagline', 'about_me', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'

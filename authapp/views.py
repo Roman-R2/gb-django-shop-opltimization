@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, \
-    ShopUserEditForm
+    ShopUserEditForm, EditProfileForm
 from authapp.models import ShopUser
 from authapp.services import check_next_in_request, send_verify_mail, \
     is_activation_key_expired
@@ -43,13 +43,21 @@ def edit(request):
     if request.method == 'POST':
         edit_form = ShopUserEditForm(request.POST, request.FILES,
                                      instance=request.user)
-        if edit_form.is_valid():
+        edit_profile_form = EditProfileForm(
+            request.POST,
+            instance=request.user.shopuserprofile
+        )
+        if edit_form.is_valid() and edit_profile_form.is_valid():
             edit_form.save()
             return redirect('mainapp:index')
     else:
         edit_form = ShopUserEditForm(instance=request.user)
+        edit_profile_form = EditProfileForm(
+            instance=request.user.shopuserprofile
+        )
     context = {
         "edit_form": edit_form,
+        "edit_profile_form": edit_profile_form,
     }
 
     return render(request, 'authapp/edit.html', context=context)

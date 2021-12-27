@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'mainapp.apps.MainappConfig',
 
     # Third party apps
+    'social_django',
 
     # Django apps
     'django.contrib.admin',
@@ -160,3 +161,14 @@ EMAIL_FILE_PATH = 'tmp/'
 # python -m smtpd -n -c DebuggingServer localhost:25'
 # и просмотра писем в консоли
 # EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+
+# Параметры для авторизации через vk
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2',
+)
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
+
+API_VERSION = 5.131

@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block content %}
-
+    <div class="h2 text-center head">
+        Войти в систему
+    </div>
     <form class="form-horizontal" action="{% url 'authapp:login' %}" method="post">
         {% if next %}
             <input type="hidden" name="next" value="{{ next }}">
@@ -11,7 +13,13 @@
         {{ login_form.as_p }}
         <br>
         <input class="form-control" type="submit" value="войти">
+        <h3>Зарегистрироваться:</h3>
         <a class="form-control btn btn-info" href="{% url 'authapp:register' %}">Регистрация</a>
+        <h3>Или войти через социальные сети:</h3>
+        <span style="font-size: 48px; color: Dodgerblue; margin-left: 30px;">
+            <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/"><i class="fa fa-vk" aria-hidden="true"></i></a>
+        </span>
+
     </form>
 
 {% endblock %}
