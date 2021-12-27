@@ -4,17 +4,10 @@ import requests
 from django.conf import settings
 from social_core.exceptions import AuthForbidden
 
-from authapp.models import ShopUserProfile
+from authapp.utils import ChoiceFor
 
 
-def save_user_profile(backend, user, response, *args, **kwargs):
-    # Ели это не сеть vk, то данный pipeline нам не подходтит
-    if backend.name != 'vk-oauth2':
-        return
-    base_url = 'https://api.vk.com/method/users.get/'
-
-    fields_for_request = ['bdate', 'sex', 'about']
-
+def get_json_response_from_vk_api(response, base_url, fields_for_request, ):
     params = {
         'fields': ','.join(fields_for_request),
         'access_token': response['access_token'],
@@ -24,17 +17,29 @@ def save_user_profile(backend, user, response, *args, **kwargs):
     api_response = requests.get(base_url, params=params)
 
     if api_response.status_code != 200:
+        return False
+
+    return api_response.json()
+
+
+def save_user_profile(backend, user, response, *args, **kwargs):
+    # Ели это не сеть vk, то данный pipeline нам не подходтит
+    if backend.name != 'vk-oauth2':
         return
 
-    api_data = api_response.json()['response'][0]
+    api_data = get_json_response_from_vk_api(
+        response,
+        'https://api.vk.com/method/users.get/',
+        ['bdate', 'sex', 'about', 'photo_200']
+    )['response'][0]
 
     if 'sex' in api_data:
         if api_data['sex'] == 1:
-            user.shopuserprofile.gender = ShopUserProfile.FEMALE
+            user.shopuserprofile.gender = ChoiceFor.FEMALE
         elif api_data['sex'] == 2:
-            user.shopuserprofile.gender = ShopUserProfile.MALE
+            user.shopuserprofile.gender = ChoiceFor.MALE
         else:
-            user.shopuserprofile.gender = ShopUserProfile.UNKNOWN
+            user.shopuserprofile.gender = ChoiceFor.UNKNOWN
 
     if 'about' in api_data:
         user.shopuserprofile.about_me = api_data['about']
@@ -47,5 +52,8 @@ def save_user_profile(backend, user, response, *args, **kwargs):
             raise AuthForbidden('social_core.backends.vk.VKOAuth2')
 
         user.age = age
+
+    if 'photo_200' in api_data:
+        user.shopuserprofile.vk_avatar = api_data['photo_200']
 
     user.save()

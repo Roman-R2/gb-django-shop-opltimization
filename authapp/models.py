@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from authapp.utils import ChoiceFor
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -17,28 +18,6 @@ class ShopUser(AbstractUser):
 
 
 class ShopUserProfile(models.Model):
-    UNKNOWN = 'U'
-
-    MALE = 'M'
-    FEMALE = 'F'
-
-    GENDERS = (
-        (MALE, 'Мужчина'),
-        (FEMALE, 'Женщина'),
-        (UNKNOWN, 'Неизвестно'),
-    )
-
-    RUS = 'Rus'
-    ENG = 'Eng'
-    ESP = 'Esp'
-
-    LANGUAGE = (
-        (RUS, 'Русский'),
-        (ENG, 'English'),
-        (ESP, 'Espaniol'),
-        (UNKNOWN, 'Неизвестно'),
-    )
-
     user = models.OneToOneField(
         ShopUser,
         unique=True,
@@ -57,13 +36,15 @@ class ShopUserProfile(models.Model):
         **NULLABLE,
     )
     gender = models.CharField(
-        choices=GENDERS,
-        default=UNKNOWN,
+        choices=ChoiceFor.GENDERS,
+        default=ChoiceFor.UNKNOWN,
         max_length=1,
         verbose_name='Пол'
     )
-    # language = models.CharField(max_length=20)
-
-
-
-
+    vk_avatar = models.URLField(max_length=400, **NULLABLE)
+    language = models.CharField(
+        choices=ChoiceFor.LANGUAGE,
+        default=ChoiceFor.UNKNOWN,
+        max_length=20,
+        verbose_name='Язык'
+    )

@@ -5,13 +5,18 @@
     <div class="h2 text-center head">
         Редактирование пользователя
     </div>
+    <div style="text-align: center;">
+    {% if vk_photo_url and not avatar %}
+            <img src="{{ vk_photo_url }}" alt="" width="200" height="200">
+        {% else %}
+            <img src="/media/{{ user.avatar }}" alt="" width="200" height="200">
+        {% endif %}
+    </div>
     <form class="form-horizontal" action="{% url 'authapp:edit' %}" method="post"
           enctype="multipart/form-data">
         {% csrf_token %}
         {{ edit_form.as_p }}
         {{ edit_profile_form.as_p }}
-        <br>
-        <img src="/media/{{ user.avatar }}" alt="">
         <br>
         <input class="form-control" type="submit" value="сохранить">
         <a class="form-control btn btn-info" href="{% url 'mainapp:index' %}">На главную</a>
