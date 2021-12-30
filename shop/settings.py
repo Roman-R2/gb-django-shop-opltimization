@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'authapp.apps.AuthappConfig',
     'basketapp.apps.BasketappConfig',
     'mainapp.apps.MainappConfig',
+    'ordersapp.apps.OrdersappConfig',
 
     # Third party apps
     'social_django',

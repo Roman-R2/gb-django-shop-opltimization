@@ -21,12 +21,10 @@ class Basket(models.Model):
     @property
     def total_quantity(self):
         items = Basket.objects.filter(user=self.user)
-        # _total_quantity = sum(list(map(lambda x: x.quantity, items)))
         _total_quantity = sum([x.quantity for x in items])
         return _total_quantity
 
     def total_cost(self):
         items = Basket.objects.filter(user=self.user)
-        # _total_cost = sum(list(map(lambda x: x.product_cost, items)))
         _total_cost = sum([x.product_cost for x in items])
         return _total_cost
