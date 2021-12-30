@@ -16,8 +16,8 @@
         {% for object in object_list %}
             <tr>
                 <td>{{ object.pk }}</td>
-                <td>{{ object.created_at|date: "d-m-Y" }}</td>
-                <td>{{ object.updated_at|date: "d-m-Y" }}</td>
+                <td>{{ object.created_at|date:"d-m-Y" }}</td>
+                <td>{{ object.updated_at|date:"d-m-Y" }}</td>
                 <td>{{ object.get_status_display }}</td>
                 <td>
                     <a href="{% url 'ordersapp:read' object.pk %}" class="btn btn-primary">Посмотреть</a>
