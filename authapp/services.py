@@ -6,7 +6,8 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.utils import timezone
 
-from authapp.models import ShopUser
+
+from authapp.models import ShopUser, ShopUserProfile
 
 
 def check_next_in_request(request):
