@@ -54,6 +54,12 @@ def save_user_profile(backend, user, response, *args, **kwargs):
         user.age = age
 
     if 'photo_200' in api_data:
-        user.shopuserprofile.vk_avatar = api_data['photo_200']
+        avatar_url = api_data['photo_200']
+        avatar_response = requests.get(avatar_url)
+        avatar_path = f"{settings.MEDIA_ROOT}/" \
+                      f"{settings.MEDIA_USER_FOLDER}/{user.pk}.jpg"
+        with open(avatar_path, 'wb') as avatar_file:
+            avatar_file.write(avatar_response.content)
+        user.avatar = f"{settings.MEDIA_USER_FOLDER}/{user.pk}.jpg"
 
     user.save()

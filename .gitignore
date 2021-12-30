@@ -12,7 +12,7 @@ venv_microsoft
 venv_ubuntu
 
 ### Media ###
-media/users
+media/users/
 
 ### BD ###
 *.sqlite3

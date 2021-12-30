@@ -6,11 +6,7 @@
         Редактирование пользователя
     </div>
     <div style="text-align: center;">
-    {% if vk_photo_url and not avatar %}
-            <img src="{{ vk_photo_url }}" alt="" width="200" height="200">
-        {% else %}
-            <img src="/media/{{ user.avatar }}" alt="" width="200" height="200">
-        {% endif %}
+        <img src="/media/{{ user.avatar }}" alt="" width="200" height="200">
     </div>
     <form class="form-horizontal" action="{% url 'authapp:edit' %}" method="post"
           enctype="multipart/form-data">

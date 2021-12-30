@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -8,7 +9,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 class ShopUser(AbstractUser):
     avatar = models.ImageField(
-        upload_to='users',
+        upload_to=settings.MEDIA_USER_FOLDER,
         blank=True,
         verbose_name='Аватар'
     )
@@ -41,7 +42,6 @@ class ShopUserProfile(models.Model):
         max_length=1,
         verbose_name='Пол'
     )
-    vk_avatar = models.URLField(max_length=400, **NULLABLE)
     language = models.CharField(
         choices=ChoiceFor.LANGUAGE,
         default=ChoiceFor.UNKNOWN,

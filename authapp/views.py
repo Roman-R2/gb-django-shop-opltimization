@@ -58,8 +58,6 @@ def edit(request):
     context = {
         "edit_form": edit_form,
         "edit_profile_form": edit_profile_form,
-        "avatar": request.user.avatar,
-        "vk_photo_url": request.user.shopuserprofile.vk_avatar
     }
 
     return render(request, 'authapp/edit.html', context=context)
