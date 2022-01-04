@@ -52,6 +52,10 @@ class Order(models.Model):
             for x in self.get_related_items()
         )
 
+    def delete(self, using=None, keep_parents=False):
+        self.is_active = False
+        self.save()
+
 
 class OrderItem(models.Model):
     """Связывает основной заказ с продуктами и хранит количество этих
