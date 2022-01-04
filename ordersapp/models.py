@@ -1,33 +1,35 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from mainapp.models import Product
 
 
 class Order(models.Model):
-    STATUS_FORMING = 'forming'
-    STATUS_SEND_TO_PROCEED = 'send to proceed'
-    STATUS_PROCEEDED = 'proceeded'
-    STATUS_PAID = 'paid'
-    STATUS_CANCEL = 'cancel'
-    STATUS_DONE = 'done'
+    class OrderStatus(models.TextChoices):
+        STATUS_FORMING = 'forming', _('формируется')
+        STATUS_SEND_TO_PROCEED = 'send to proceed', _('отправлено в обработку')
+        STATUS_PROCEEDED = 'proceeded', _('обработано')
+        STATUS_PAID = 'paid', _('оплачено')
+        STATUS_CANCEL = 'cancel', _('отменено')
+        STATUS_DONE = 'done', _('завершено')
 
-    STATUSES = (
-        (STATUS_FORMING, 'формируется'),
-        (STATUS_SEND_TO_PROCEED, 'отправлено в обработку'),
-        (STATUS_PROCEEDED, 'обработано'),
-        (STATUS_PAID, 'оплачено'),
-        (STATUS_CANCEL, 'отменено'),
-        (STATUS_DONE, 'завершено'),
-    )
+        # STATUSES = (
+        #     (STATUS_FORMING, 'формируется'),
+        #     (STATUS_SEND_TO_PROCEED, 'отправлено в обработку'),
+        #     (STATUS_PROCEEDED, 'обработано'),
+        #     (STATUS_PAID, 'оплачено'),
+        #     (STATUS_CANCEL, 'отменено'),
+        #     (STATUS_DONE, 'завершено'),
+        # )
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
     status = models.CharField(
-        choices=STATUSES,
-        default=STATUS_FORMING,
+        choices=OrderStatus.choices,
+        default=OrderStatus.STATUS_FORMING,
         max_length=30
     )
     is_active = models.BooleanField(default=True)

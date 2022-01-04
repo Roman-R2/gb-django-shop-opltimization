@@ -1,0 +1,18 @@
+{% if object.status == 'FM' %}
+    <button class="btn btn-warning ">
+        <a href="{% url 'ordersapp:complete' object.pk %}">
+            совершить покупку
+        </a>
+    </button>
+    <button class="btn btn-default ">
+        <a href="{% url 'ordersapp:delete' object.pk %}">удалить</a>
+    </button>
+{% endif %}
+<button class="btn btn-info ">
+    <a href="{% url 'ordersapp:list' %}">
+        к списку заказов
+    </a>
+</button>
+<button class="btn btn-default ">
+    <a href="{% url 'mainapp:index' %}">на главную</a>
+</button>

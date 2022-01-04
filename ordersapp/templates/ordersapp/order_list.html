@@ -32,4 +32,10 @@
         {% endfor %}
         </tbody>
     </table>
+    <hr>
+    <div style="text-align: center;">
+        <a href="{% url 'mainapp:index' %}" class="btn btn-link">На главную</a>
+        <a href="{% url 'ordersapp:create' %}" class="btn btn-primary">Новый заказ</a>
+    </div>
+
 {% endblock %}
