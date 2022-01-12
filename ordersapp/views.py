@@ -49,7 +49,7 @@ class OrderCreateView(CreateView):
                 for num, form in enumerate(formset.forms):
                     form.initial['product'] = basket_items[num].product
                     form.initial['quantity'] = basket_items[num].quantity
-                basket_items.delete()
+
             else:
                 formset = OrderFormSet()
 
@@ -68,6 +68,8 @@ class OrderCreateView(CreateView):
             if orderitems.is_valid():
                 orderitems.instance = self.object
                 orderitems.save()
+            basket_items = Basket.objects.filter(user=self.request.user)
+            basket_items.delete()
 
         if self.object.get_total_cost() == 0:
             self.object.delete()

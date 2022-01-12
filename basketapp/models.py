@@ -4,7 +4,20 @@ from django.db import models
 from mainapp.models import Product
 
 
+# Менеджер объектов для обработки QuerySet
+class BasketQuerySet(models.QuerySet):
+    def delete(self, *args, **kwargs):
+        # self это QuerySet
+        for item in self:
+            # Если заказ удаляем, то вернем товары обратно на склад
+            item.product.quantity += item.quantity
+            item.product.save()
+        super().delete(*args, **kwargs)
+
+
 class Basket(models.Model):
+    # Укажем, что менеджером объектов теперь является BasketQuerySet
+    object = BasketQuerySet.as_manager()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
