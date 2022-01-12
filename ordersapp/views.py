@@ -51,6 +51,9 @@ class OrderCreateView(CreateView):
                 for num, form in enumerate(formset.forms):
                     form.initial['product'] = basket_items[num].product
                     form.initial['quantity'] = basket_items[num].quantity
+                    # Поле price price формы OrderItemForm, которого нет в
+                    # модели, но нужное для динамического подсчета корзины
+                    form.initial['price'] = basket_items[num].product.price
 
             else:
                 formset = OrderFormSet()
@@ -97,7 +100,9 @@ class OrderUpdateView(UpdateView):
             formset = OrderFormSet(self.request.POST, instance=self.object)
         else:
             formset = OrderFormSet(instance=self.object)
-
+            for form in formset.forms:
+                if form.instance.pk:
+                    form.initial['price'] = form.instance.product.price
         context_data['orderitems'] = formset
 
         return context_data

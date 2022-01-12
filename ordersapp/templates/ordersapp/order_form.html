@@ -14,7 +14,7 @@
                         <thead>
                         <tr>
                             {% for field in form.visible_fields %}
-                                <th class="{% cycle 'td1' 'td2' 'td3' %}">
+                                <th class="{% cycle 'td1' 'td2' 'td3' 'td4' %}">
                                     {{ field.label|capfirst }}
                                 </th>
                             {% endfor %}
@@ -23,9 +23,9 @@
                     {% endif %}
                     <tr class="formset_row">
                         {% for field in form.visible_fields %}
-                            <td class="{% cycle 'td1' 'td2' 'td3' %}">
+                            <td class="{% cycle 'td1' 'td2' 'td3' 'td4' %}">
                                 {% if forloop.first %}
-                                    {% for hidden in form.hidden_fielsd %}
+                                    {% for hidden in form.hidden_fields %}
                                         {{ hidden }}
                                     {% endfor %}
                                 {% endif %}
