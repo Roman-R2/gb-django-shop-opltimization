@@ -3,6 +3,7 @@ from django.db import transaction
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from django.forms import inlineformset_factory
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -10,6 +11,7 @@ from django.views.generic import ListView, UpdateView, CreateView, \
     DetailView, DeleteView
 
 from basketapp.models import Basket
+from mainapp.models import Product
 from ordersapp.forms import OrderItemForm
 from ordersapp.models import Order, OrderItem
 
@@ -142,6 +144,14 @@ def complete(request, pk):
     order_item.save()
 
     return redirect('ordersapp:list')
+
+
+def get_product_price(request, pk):
+    product_price = 0.0
+    product = Product.objects.filter(pk=pk, is_active=True).first()
+    if product:
+        product_price = product.price
+    return JsonResponse({'price': product_price})
 
 
 # BEGIN --------------------------
