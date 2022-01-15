@@ -15,6 +15,12 @@ class OrderForm(forms.ModelForm):
 
 
 class OrderItemForm(forms.ModelForm):
+    price = forms.CharField(
+        label='Цена',
+        required=False,
+        widget=forms.TextInput(attrs={"readonly": ""})
+    )
+
     class Meta:
         model = OrderItem
         fields = '__all__'
