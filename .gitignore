@@ -20,9 +20,6 @@ media/users/
 ### Django ###
 *.pyc
 
-### DB ###
-db.sqlite3
-
 ### Other ###
 help.txt
 tmp/
