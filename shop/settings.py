@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Third party apps
     'social_django',
     'debug_toolbar',
+    'template_profiler_panel',
     'django_extensions',
 
     # Django apps
