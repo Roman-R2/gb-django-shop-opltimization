@@ -20,7 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('myadmin/', include('adminapp.urls', namespace='adminapp') ),
+    path('myadmin/', include('adminapp.urls', namespace='adminapp')),
     path('', include('social_django.urls', namespace='social')),
     path('', include('mainapp.urls', namespace='mainapp')),
     path('auth/', include('authapp.urls', namespace='authapp')),
@@ -29,6 +29,14 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    # Если мы в режиме дебага, то скажем django где брать загруженные файлы картинок и пр.
+    import debug_toolbar
+
+    # Подключим дебагпанель
+    urlpatterns = [
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
+
+    # Если мы в режиме дебага, то скажем django где брать
+    # загруженные файлы картинок и пр.
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

@@ -30,6 +30,10 @@ DEBUG = True
 # Хосты, по которым можно зайти на сайт (* - с любого хоста)
 ALLOWED_HOSTS = ['*']
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 # Application definition
 INSTALLED_APPS = [
     # My apps
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
 
     # Third party apps
     'social_django',
+    'debug_toolbar',
 
     # Django apps
     'django.contrib.admin',
@@ -63,6 +68,7 @@ MIDDLEWARE = [
 
     # Third party middlewares
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'shop.urls'
