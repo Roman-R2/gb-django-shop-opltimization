@@ -99,11 +99,22 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'shop',  # Имя базы на сервере
+#         'USER': 'postgres',  # Пользователь БД
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shop',  # Имя базы на сервере
-        'USER': 'postgres',  # Пользователь БД
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'shop',
+        'USER': 'app',
+        'PASSWORD': 'secret',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
