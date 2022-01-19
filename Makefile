@@ -21,9 +21,9 @@ migrate:
 	python3.10 manage.py migrate
 
 superuser:
+loaddata:
 	python3.10 manage.py createsuperuser --noinput
 
-loaddata:
 	python3.10 manage.py loaddata category
 	python3.10 manage.py loaddata product
 
