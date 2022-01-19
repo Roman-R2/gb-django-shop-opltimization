@@ -14,7 +14,9 @@ from mainapp.models import Product
 @login_required
 def basket(request):
     context = {
-        "basket_list": Basket.objects.filter(user=request.user)
+        "basket_list": Basket.objects.filter(
+            user=request.user
+        ).select_related()
     }
     return render(request, 'basketapp/basket.html', context=context)
 
@@ -38,6 +40,7 @@ def basket_add(request, pk):  # pk - Product pk
     else:
         basket_item.update(quantity=F("quantity") + 1)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 @login_required
 def basket_remove(request, pk):  # pk - Basket pk
