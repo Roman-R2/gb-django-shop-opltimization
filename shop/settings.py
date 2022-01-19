@@ -26,6 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SERVER_ENV = os.getenv('SERVER_ENV')
 
 # Хосты, по которым можно зайти на сайт (* - с любого хоста)
 ALLOWED_HOSTS = ['*']
@@ -107,24 +108,26 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shop',  # Имя базы на сервере
-        'USER': 'postgres',  # Пользователь БД
-    }
-}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'shop',
-#         'USER': 'app',
-#         'PASSWORD': 'secret',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+if SERVER_ENV == 'prod':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'shop',  # Имя базы на сервере
+            'USER': 'postgres',  # Пользователь БД
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'shop',
+            'USER': 'app',
+            'PASSWORD': 'secret',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -161,13 +164,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT для dev сервера
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-#  Папки со статикой приложений
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'mainapp/static'),
-    # os.path.join(BASE_DIR, 'authapp/static'),
-]
+
+if SERVER_ENV == 'prod':
+    # STATIC_ROOT для сервера
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+else:
+    #  Папки со статикой приложений
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'mainapp/static'),
+        # os.path.join(BASE_DIR, 'authapp/static'),
+    ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
