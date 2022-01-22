@@ -11,21 +11,21 @@ venv:
 	. venv_ubuntu/bin/activate
 
 start:
-	python3.10 manage.py runserver
+	python manage.py runserver
 
 collectstatic:
-	python3.10 manage.py collectstatic
+	python manage.py collectstatic
 
 migrate:
-	python3.10 manage.py makemigrations
-	python3.10 manage.py migrate
+	python manage.py makemigrations
+	python manage.py migrate
 
 superuser:
 loaddata:
-	python3.10 manage.py createsuperuser --noinput
+	python manage.py createsuperuser --noinput
 
-	python3.10 manage.py loaddata category
-	python3.10 manage.py loaddata product
+	python manage.py loaddata category
+	python manage.py loaddata product
 
 restore-db:
 	rm -f db.sqlite3
