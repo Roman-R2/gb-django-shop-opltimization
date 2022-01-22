@@ -108,7 +108,6 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 #     }
 # }
 
-
 if SERVER_ENV == 'prod':
     DATABASES = {
         'default': {

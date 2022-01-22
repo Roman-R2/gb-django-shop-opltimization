@@ -1,3 +1,8 @@
+start:
+	python manage.py runserver
+
+stop: docker-down
+
 docker-up:
 	docker-compose up -d
 
@@ -10,9 +15,6 @@ docker-build:
 venv:
 	. venv_ubuntu/bin/activate
 
-start:
-	python manage.py runserver
-
 collectstatic:
 	python manage.py collectstatic
 
@@ -21,9 +23,9 @@ migrate:
 	python manage.py migrate
 
 superuser:
-loaddata:
 	python manage.py createsuperuser --noinput
 
+loaddata:
 	python manage.py loaddata category
 	python manage.py loaddata product
 
