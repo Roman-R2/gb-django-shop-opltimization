@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models.signals import pre_save, pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.forms import inlineformset_factory
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, UpdateView, CreateView, \
-    DetailView, DeleteView
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
 from basketapp.models import Basket
 from mainapp.models import Product
@@ -101,7 +101,8 @@ class OrderUpdateView(UpdateView):
         if self.request.method == 'POST':
             formset = OrderFormSet(self.request.POST, instance=self.object)
         else:
-            formset = OrderFormSet(instance=self.object)
+            queryset = self.object.orderitems.select_related()
+            formset = OrderFormSet(instance=self.object, queryset=queryset)
             for form in formset.forms:
                 if form.instance.pk:
                     form.initial['price'] = form.instance.product.price

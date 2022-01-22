@@ -26,9 +26,14 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SERVER_ENV = os.getenv('SERVER_ENV')
 
 # Хосты, по которым можно зайти на сайт (* - с любого хоста)
 ALLOWED_HOSTS = ['*']
+
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,6 +46,9 @@ INSTALLED_APPS = [
 
     # Third party apps
     'social_django',
+    'debug_toolbar',
+    'template_profiler_panel',
+    'django_extensions',
 
     # Django apps
     'django.contrib.admin',
@@ -63,6 +71,7 @@ MIDDLEWARE = [
 
     # Third party middlewares
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -99,13 +108,26 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shop',  # Имя базы на сервере
-        'USER': 'postgres',  # Пользователь БД
+
+if SERVER_ENV == 'prod':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'shop',  # Имя базы на сервере
+            'USER': 'postgres',  # Пользователь БД
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'shop',
+            'USER': 'app',
+            'PASSWORD': 'secret',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -142,13 +164,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT для dev сервера
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-#  Папки со статикой приложений
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'mainapp/static'),
-    # os.path.join(BASE_DIR, 'authapp/static'),
-]
+
+if SERVER_ENV == 'prod':
+    # STATIC_ROOT для сервера
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+else:
+    #  Папки со статикой приложений
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'mainapp/static'),
+        # os.path.join(BASE_DIR, 'authapp/static'),
+    ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -210,3 +235,30 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
+
+# Настройки дебагтулбара
+if DEBUG:
+    def show_toolbar(request):
+        return True
+
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+    }
+
+    DEBUG_TOOLBAR_PANELS = [
+        'debug_toolbar.panels.versions.VersionsPanel',
+        'debug_toolbar.panels.timer.TimerPanel',
+        'debug_toolbar.panels.settings.SettingsPanel',
+        'debug_toolbar.panels.headers.HeadersPanel',
+        'debug_toolbar.panels.request.RequestPanel',
+        'debug_toolbar.panels.sql.SQLPanel',
+        'debug_toolbar.panels.templates.TemplatesPanel',
+        'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+        'debug_toolbar.panels.cache.CachePanel',
+        'debug_toolbar.panels.signals.SignalsPanel',
+        'debug_toolbar.panels.logging.LoggingPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+        'debug_toolbar.panels.profiling.ProfilingPanel',
+        'template_profiler_panel.panels.template.TemplateProfilerPanel',
+    ]

@@ -1,3 +1,12 @@
+docker-up:
+	docker-compose up -d
+
+docker-down:
+	docker-compose down --remove-orphans
+
+docker-build:
+	docker-compose build
+
 venv:
 	. venv_ubuntu/bin/activate
 
@@ -12,9 +21,9 @@ migrate:
 	python3.10 manage.py migrate
 
 superuser:
+loaddata:
 	python3.10 manage.py createsuperuser --noinput
 
-loaddata:
 	python3.10 manage.py loaddata category
 	python3.10 manage.py loaddata product
 
