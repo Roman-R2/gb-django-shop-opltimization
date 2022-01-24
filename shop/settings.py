@@ -261,3 +261,23 @@ if DEBUG:
         'debug_toolbar.panels.profiling.ProfilingPanel',
         'template_profiler_panel.panels.template.TemplateProfilerPanel',
     ]
+
+# Реализация кэширования для memcache
+
+
+if SERVER_ENV == 'prod':
+    pass
+else:
+    CACHE_MIDDLEWARE_ALIAS = 'default'
+    CACHE_MIDDLEWARE_SECONDS = 120
+    CACHE_MIDDLEWARE_KEY_PREFIX = 'shop'
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': 'localhost:11211',
+        }
+    }
+
+    # Включить низкоуровневый кэш
+    LOW_CACHE = True

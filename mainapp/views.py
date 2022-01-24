@@ -1,6 +1,7 @@
 import json
 from urllib.request import urlopen
 
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
