@@ -12,7 +12,9 @@ from mainapp.services import get_hot_product, get_same_products, \
 
 
 def index(request):
-    products = Product.objects.all()[:4]
+    PRODUCT_COUNT = 4
+
+    products = Product.objects.all()[:PRODUCT_COUNT]
     context = {
         "products": products,
     }

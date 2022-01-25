@@ -1,4 +1,5 @@
 {% extends 'ordersapp/base.html' %}
+{% load cache %}
 
 {% block content %}
     {% include 'ordersapp/inc/inc_order_summary.html' %}
@@ -30,7 +31,14 @@
                                     {% endfor %}
                                 {% endif %}
                                 {{ field.errors.as_u }}
-                                {{ field }}
+                                {% if field.name == 'product' %}
+                                    {% cache 3600 orderitemsform_product field.value %}
+                                        {{ field }}
+                                    {% endcache %}
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+
                             </td>
 
                         {% endfor %}
