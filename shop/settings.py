@@ -61,6 +61,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     # Django middlewares
+    # django first cache middleware
+    'django.middleware.cache.UpdateCacheMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,6 +75,9 @@ MIDDLEWARE = [
     # Third party middlewares
     'social_django.middleware.SocialAuthExceptionMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+    # django last cache middleware
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'shop.urls'

@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
