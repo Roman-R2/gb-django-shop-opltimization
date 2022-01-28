@@ -20,6 +20,10 @@ media/users/
 ### Django ###
 *.pyc
 
+### Tests ###
+htmlcov/
+.coverage
+
 ### Other ###
 help.txt
 tmp/

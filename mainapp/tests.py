@@ -1,10 +1,10 @@
 from django.test import TestCase
 
+from authapp.statuses import status
 from mainapp.models import Category, Product
 
 
 class MainAppSmokeTest(TestCase):
-    HTTP_200_OK = 200
 
     def setUp(self):
         category = Category.objects.create(
@@ -23,17 +23,17 @@ class MainAppSmokeTest(TestCase):
 
     def test_mainapp_urls(self):
         response = self.client.get('/')
-        self.assertEqual(response.status_code, self.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_categories_urls(self):
         for cat in Category.objects.all():
             response = self.client.get(f'/products/{cat.slug}/')
-            self.assertEqual(response.status_code, self.HTTP_200_OK)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_products_urls(self):
         for prod in Product.objects.all():
             response = self.client.get(f'/product/{prod.slug}/')
-            self.assertEqual(response.status_code, self.HTTP_200_OK)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def tearDown(self):
         pass
