@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -39,6 +40,7 @@ def logout(request):
     return HttpResponseRedirect(reverse('mainapp:index'))
 
 
+@login_required
 def edit(request):
     if request.method == 'POST':
         edit_form = ShopUserEditForm(request.POST, request.FILES,
@@ -93,5 +95,9 @@ def verify(request, email, activation_key):
             user.activation_key = None
             user.activation_key_expired = None
             user.save()
-            auth.login(request, user)
+            auth.login(
+                request,
+                user,
+                backend='django.contrib.auth.backends.ModelBackend'
+            )
     return render(request, 'authapp/verify.html')

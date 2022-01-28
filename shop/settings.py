@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 SERVER_ENV = os.getenv('SERVER_ENV')
 
 # Хосты, по которым можно зайти на сайт (* - с любого хоста)
@@ -286,4 +286,4 @@ else:
     }
 
     # Включить низкоуровневый кэш
-    LOW_CACHE = True
+    LOW_CACHE = False
