@@ -30,7 +30,7 @@ loaddata:
 	python manage.py loaddata product
 
 restore-db:
-	rm -f db.sqlite3
+	# rm -f db.sqlite3
 	rm -fr mainapp/migrations
 	mkdir mainapp/migrations
 	touch mainapp/migrations/__init__.py
