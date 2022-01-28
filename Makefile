@@ -1,4 +1,4 @@
-start:
+start: docker-up
 	python manage.py runserver
 
 stop: docker-down

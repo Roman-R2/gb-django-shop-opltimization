@@ -4,6 +4,7 @@ from urllib.request import urlopen
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.cache import cache_page
 
 from mainapp.models import Category, Product
 from mainapp.services import get_hot_product, get_same_products, \
@@ -11,13 +12,16 @@ from mainapp.services import get_hot_product, get_same_products, \
 
 
 def index(request):
-    products = Product.objects.all()[:4]
+    PRODUCT_COUNT = 4
+
+    products = Product.objects.all()[:PRODUCT_COUNT]
     context = {
         "products": products,
     }
     return render(request, 'mainapp/index.html', context=context)
 
 
+@cache_page(3600)
 def products(request, slug=None, page=1):
     if slug is None or slug == "all":
         this_category = {"name": "Все", "slug": "all"}

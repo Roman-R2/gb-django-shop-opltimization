@@ -13,5 +13,14 @@ services:
         ports:
             - "5432:5432"
 
+    cache:
+        container_name: gbshop-cache
+        image: memcached
+        ports:
+            - "11211:11211"
+        entrypoint:
+            - memcached
+            - -m 64
+
 volumes:
     postgres-volume:

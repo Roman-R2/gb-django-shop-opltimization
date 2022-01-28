@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.core.cache import cache
+
 from mainapp.models import Product, Category
 
 
@@ -15,5 +18,19 @@ def get_same_products(hot_product):
     return []
 
 
+# def get_links_menu():
+#     return Category.objects.all()
+
+
 def get_links_menu():
-    return Category.objects.all()
+    """Решит забрать список категорий из базы или из кэша"""
+    if settings.LOW_CACHE:
+        # Ключ, по которому информация лежит в кэше
+        key = "links_menu"
+        links_menu = cache.get(key)
+        if links_menu is None:
+            links_menu = Category.objects.filter(is_active=True)
+            cache.set(key, links_menu)
+        return links_menu
+    else:
+        return Category.objects.filter(is_active=True)
