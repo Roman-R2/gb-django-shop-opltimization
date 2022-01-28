@@ -21,7 +21,7 @@ def index(request):
     return render(request, 'mainapp/index.html', context=context)
 
 
-@cache_page(3600)
+# @cache_page(3600)
 def products(request, slug=None, page=1):
     if slug is None or slug == "all":
         this_category = {"name": "Все", "slug": "all"}

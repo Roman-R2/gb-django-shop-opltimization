@@ -12,6 +12,14 @@ class ShopUserAdminEditForm(ShopUserEditForm):
 
 
 class ProductCategoryForm(forms.ModelForm):
+    discount = forms.IntegerField(
+        label='Скидка',
+        required=False,
+        min_value=0,
+        max_value=90,
+        initial=0
+    )
+
     class Meta:
         model = Category
         fields = '__all__'
